@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: backend
+    spec:
+      containers:
+      - image: 107021/samrepo:backend-v1
+        name: backend
+        env:
+          - name: FRONTEND
+            value: "frontend-service"
+        ports:
+          - containerPort: 5000
+        volumeMounts:
+          - mountPath: /var/log/
+            name: backend
+      volumes:
+        - name: backend
+          hostPath:
+            path: /var/log/
